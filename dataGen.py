@@ -81,4 +81,40 @@ def getBugDetails(username, password):
     f.close()
 
 
+def filter():
+    filtered_data = {}
+    final_list = []
+    mozillian_data = json.loads(open('mozillian_users.json').read())
+    print mozillian_data
+    mozillians = mozillian_data['users']
+    print len(mozillians)
+    bugzilla_data = json.loads(open('bounty_bugs.json').read())
+    print bugzilla_data
+    bugs = bugzilla_data['bugs']
+    print len(bugs)
+    for bug in bugs:
+        bug_email = bug['reporter_email']
+        for mozillian in mozillians:
+            mozillian_email = mozillian['email']
+            if bug_email == mozillian_email:
+                entry = {}
+                entry['reported_date'] = bug['reported_date']
+                entry['publish'] = bug['publish']
+                entry['awarded_date'] = bug['awarded_date']
+                entry['bug_id'] = bug['bug_id']
+                entry['amount'] = bug['amount']
+                entry['fixed_date'] = bug['fixed_date']
+                entry['reporter_email'] = bug['reporter_email']
+                entry['reporter_photo'] = mozillian['photo']
+                entry['reporter_full_name'] = mozillian['full_name']
+                final_list.append(entry)
+    filtered_data['bugs'] = final_list
+    j_filtered_data = json.dumps(filtered_data)
+    f = open('bounty_data.json', 'w')
+    print >> f , j_filtered_data
+    f.close()
+
+
+
+
 

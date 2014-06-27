@@ -13,3 +13,4 @@ appName = 'hof'
 #if __name__ == 'main':
 dataGen.getMozilliansData(appKey=appKey, appName=appName)
 dataGen.getBugDetails(username=username, password=password)
+dataGen.filter()
